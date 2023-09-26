@@ -16,39 +16,46 @@ namespace ChessGameWPF
     internal class ChessBoard
     {
         public static Piece[,] Board = new Piece[8, 8];
+
+        public static bool isHaveEnPassanto = false;
         static bool isSelected = false;
+
         static int x = 0;
         static int y = 0;
         public static Grid grid;
-        private static void CreatePieces(pieceName Name, color clr, int x, int y, Button btn)
+
+        private static Piece[,] CreatePieces(pieceName Name, color clr, int x, int y, Button btn, Piece[,] boar,
+            bool IsEnpasanto = false, bool isFirst = true)
         {
             switch (Name)
             {
                 case pieceName.Empty:
-                    Board[x, y] = new Empty { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Empty { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Pawn:
-                    Board[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn, CanEnPassant = IsEnpasanto, isFirstMove = isFirst };
                     break;
                 case pieceName.King:
-                    Board[x, y] = new King { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new King { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Knight:
-                    Board[x, y] = new Knight { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Knight { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Bishop:
-                    Board[x, y] = new Bishop { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Bishop { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Rook:
-                    Board[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Queen:
-                    Board[x, y] = new Queen { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Queen { Color = clr, x = x, y = y, Button = btn };
                     break;
             }
+            return boar;
         }
 
-        public static Button CreateButton(pieceName Name, color clr, int x, int y)
+        public static Piece[,] CreateButton(pieceName Name, color clr, int x, int y, Piece[,] boar,
+            bool IsEnpasanto = false, bool isFirst = true)
         {
             string name = "";
             switch (Name)
@@ -101,47 +108,54 @@ namespace ChessGameWPF
             btn.Name = $"_{x}_{y}";
             Grid.SetRow(btn, x);
             Grid.SetColumn(btn, y);
-            CreatePieces(Name, clr, x, y, btn);
-            return btn;
+            boar = CreatePieces(Name, clr, x, y, btn, boar, IsEnpasanto, isFirst);
+            return boar;
         }
 
         public static void CreateBoard(Style style)
         {
-            grid.Children.Add(CreateButton(pieceName.Rook, color.black, 0, 0));
-            grid.Children.Add(CreateButton(pieceName.Rook, color.black, 0, 7));
+            Board = CreateButton(pieceName.Rook, color.black, 0, 0, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Rook, color.black, 0, 7, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Rook, color.white, 7, 0));
-            grid.Children.Add(CreateButton(pieceName.Rook, color.white, 7, 7));
+            Board = CreateButton(pieceName.Rook, color.white, 7, 0, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Rook, color.white, 7, 7, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Knight, color.black, 0, 1));
-            grid.Children.Add(CreateButton(pieceName.Knight, color.black, 0, 6));
+            Board = CreateButton(pieceName.Knight, color.black, 0, 1, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Knight, color.black, 0, 6, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Knight, color.white, 7, 1));
-            grid.Children.Add(CreateButton(pieceName.Knight, color.white, 7, 6));
+            Board = CreateButton(pieceName.Knight, color.white, 7, 1, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Knight, color.white, 7, 6, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Bishop, color.black, 0, 2));
-            grid.Children.Add(CreateButton(pieceName.Bishop, color.black, 0, 5));
+            Board = CreateButton(pieceName.Bishop, color.black, 0, 2, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Bishop, color.black, 0, 5, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Bishop, color.white, 7, 2));
-            grid.Children.Add(CreateButton(pieceName.Bishop, color.white, 7, 5));
+            Board = CreateButton(pieceName.Bishop, color.white, 7, 2, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Bishop, color.white, 7, 5, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Queen, color.black, 0, 3));
-            grid.Children.Add(CreateButton(pieceName.King, color.black, 0, 4));
+            Board = CreateButton(pieceName.Queen, color.black, 0, 3, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.King, color.black, 0, 4, (Piece[,])Board.Clone());
 
-            grid.Children.Add(CreateButton(pieceName.Queen, color.white, 7, 3));
-            grid.Children.Add(CreateButton(pieceName.King, color.white, 7, 4));
+            Board = CreateButton(pieceName.Queen, color.white, 7, 3, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.King, color.white, 7, 4, (Piece[,])Board.Clone());
 
             for (int i = 0; i < Board.GetLength(1); i++)
             {
-                grid.Children.Add(CreateButton(pieceName.Pawn, color.black, 1, i));
+                Board = CreateButton(pieceName.Pawn, color.black, 1, i, (Piece[,])Board.Clone());
 
-                grid.Children.Add(CreateButton(pieceName.Pawn, color.white, 6, i));
+                Board = CreateButton(pieceName.Pawn, color.white, 6, i, (Piece[,])Board.Clone());
             }
             for (int i = 2; i < Board.GetLength(0) - 2; i++)
             {
                 for (int l = 0; l < Board.GetLength(1); l++)
                 {
-                    grid.Children.Add(CreateButton(pieceName.Empty, color.none, i, l));
+                    Board = CreateButton(pieceName.Empty, color.none, i, l, (Piece[,])Board.Clone());
+                }
+            }
+            for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < Board.GetLength(1); l++)
+                {
+                    grid.Children.Add(Board[i,l].Button);
                 }
             }
         }
@@ -158,11 +172,14 @@ namespace ChessGameWPF
             }
             if (isSelected)
             {
-                Piece[,] board = (Piece[,])Board.Clone();
                 Board[x, y].Button.BorderBrush = Brushes.Transparent;
                 Board[xM, yM].Button.BorderBrush = Brushes.Transparent;
-                if (Board[x, y].tryMove(xM, yM, board))
-                    Board[x, y].Move(xM, yM);
+                Piece[,] boar = (Piece[,])Board.Clone();
+                if (Board[x, y].CanMove(xM, yM, boar))
+                {
+                    Board = null;
+                    Board = boar[x, y].Move(xM, yM, boar);
+                }
                 isSelected = false;
                 Clear_Moves();
             }

@@ -15,13 +15,10 @@ namespace ChessGameWPF.piece
         {
             return false;
         }
-        public override bool tryMove(int xM, int yM, Piece[,] board)
+
+        public override Piece[,] Move(int xM, int yM, Piece[,] Board)
         {
-            return false;
-        }
-        public override void Move(int xM, int yM)
-        {
-           
+            return Board;
         }
     }
 }

@@ -27,21 +27,43 @@ namespace ChessGameWPF.piece
             return false;
         }
 
-        public virtual bool tryMove(int xM, int yM, Piece[,] board) 
-        {
-            return false;
-        }
 
-        public virtual void Move(int xM, int yM)
+        public virtual Piece[,] Move(int xM, int yM, Piece[,] Board)
         {
-            ChessBoard.grid.Children.Remove(ChessBoard.Board[x, y].Button);
-            ChessBoard.grid.Children.Remove(ChessBoard.Board[xM, yM].Button);
-            ChessBoard.Board[xM, yM] = (Piece)this.Clone();
-            ChessBoard.Board[x, y] = new Empty { x = x, y = y, Color = color.none};
-            ChessBoard.Board[xM, yM].x = xM;
-            ChessBoard.Board[xM, yM].y = yM;
-            ChessBoard.grid.Children.Add(ChessBoard.CreateButton(ChessBoard.Board[xM, yM].PieceName, ChessBoard.Board[xM, yM].Color, xM, yM));
-            ChessBoard.grid.Children.Add(ChessBoard.CreateButton(pieceName.Empty, color.none, x, y));
+            if (ChessBoard.isHaveEnPassanto)
+            {
+                bool alsohave = false;
+                for (int i = 0; i < Board.GetLength(0); i++)
+                {
+                    for (int l = 0; l < Board.GetLength(1); l++)
+                    {
+                        if (Board[i, l].PieceName == pieceName.Pawn &&
+                            this.Color == Board[i,l].Color)
+                            (Board[i, l] as Pawn).CanEnPassant = false;
+                        if (Board[i, l].PieceName == pieceName.Pawn)
+                            if ((Board[i, l] as Pawn).CanEnPassant)
+                                alsohave = true;
+                    }
+                }
+                if (alsohave)
+                    ChessBoard.isHaveEnPassanto = true;
+                else
+                    ChessBoard.isHaveEnPassanto = false;
+            }
+
+            ChessBoard.grid.Children.Remove(Board[x, y].Button);
+            ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
+            Board[xM, yM] = (Piece)this.Clone();
+            Board[xM, yM].x = xM;
+            Board[xM, yM].y = yM;
+            if (this.PieceName != pieceName.Pawn)
+            {
+                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, (Piece[,])Board.Clone());
+                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, (Piece[,])Board.Clone());
+                ChessBoard.grid.Children.Add(Board[xM, yM].Button);
+                ChessBoard.grid.Children.Add(Board[x, y].Button);
+            }
+            return Board;
         }
         
         public void showMoves(int x, int y)
