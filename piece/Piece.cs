@@ -92,19 +92,19 @@ namespace ChessGameWPF.piece
                 {
                     if (Board[i, l].PieceName == pieceName.King && Board[i, l].Color == color)
                     {
-                        king = Board[i, l] as King;
+                        king = Board[i, l].Clone() as King;
                         break;
                     }
                 }
             }
-            return (King)king.Clone();
+            return king;
         }
 
         public static bool IsInCheck(color color, Piece[,] Board, int thrx = -1, int thry = -1)
         {
-            King king = SearchKing(color, Board);
             if (thrx == -1 && thry == -1)
             {
+                King king = SearchKing(color, Board);
                 for (int i = 0; i < Board.GetLength(0); i++)
                 {
                     for (int l = 0; l < Board.GetLength(1); l++)
@@ -200,5 +200,6 @@ namespace ChessGameWPF.piece
                 ChessBoard.Board[item.x, item.y].Button.BorderBrush = Brushes.Green;
             }
         }
+
     }
 }

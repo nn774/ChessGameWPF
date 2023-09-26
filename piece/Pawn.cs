@@ -20,6 +20,7 @@ namespace ChessGameWPF.piece
             if(!isChecking)
                 if (base.CanMove(xM, yM, Board))
                     return false;
+
             int deltaX = xM - x;
             int deltaY = Math.Abs(yM - y);
             if (Color == color.black)

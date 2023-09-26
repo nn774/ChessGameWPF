@@ -15,15 +15,13 @@ namespace ChessGameWPF.piece
         public override bool CanMove(int xM, int yM, Piece[,] Board, bool isChecking = false)
         {
             if (!isChecking)
-            {
                 if (base.CanMove(xM, yM, Board))
                     return false;
-            }
 
             int deltaX = Math.Abs(xM - x);
             int deltaY = Math.Abs(yM - y);
-
-            if (deltaX <= 1 && deltaY <= 1)
+            
+            if (deltaX <= 1 && deltaY <= 1 )
             {
                 if (deltaX == 0 && deltaY == 0)
                     return false;
@@ -33,7 +31,7 @@ namespace ChessGameWPF.piece
                     return true;
                 }
             }
-            else if (!HasMoved && deltaX == 0 && deltaY == 2)
+            else if (!HasMoved && deltaX == 0 && deltaY == 2 && !isChecking)
             {
                 if (yM > y)
                 {
@@ -73,8 +71,6 @@ namespace ChessGameWPF.piece
             }
             return false;
         }
-
-
 
         public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {

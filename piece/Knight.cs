@@ -18,6 +18,7 @@ namespace ChessGameWPF.piece
             if (!isChecking)
                 if (base.CanMove(xM, yM, Board))
                     return false;
+
             int xx = Math.Abs(x - xM);
             int yy = Math.Abs(y - yM);
             if ((xx == 2 && yy == 1) || (xx == 1 && yy == 2))
