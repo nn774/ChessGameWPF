@@ -8,6 +8,6 @@ namespace ChessGameWPF.Enum
 {
     enum color
     {
-        black, white
+        black, white, none
     }
 }
