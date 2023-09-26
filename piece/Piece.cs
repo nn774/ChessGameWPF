@@ -145,7 +145,6 @@ namespace ChessGameWPF.piece
             return true;
         }
 
-
         private static List<Moves> GetMoves(int x, int y, Piece[,] Board)
         {
             List<Moves> list = new List<Moves>();
