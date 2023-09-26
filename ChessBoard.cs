@@ -15,9 +15,40 @@ namespace ChessGameWPF
 {
     internal class ChessBoard
     {
-        static Piece[,] Board = new Piece[8,8];
+        public static Piece[,] Board = new Piece[8, 8];
+        static bool isSelected = false;
+        static int x = 0;
+        static int y = 0;
+        public static Grid grid;
+        private static void CreatePieces(pieceName Name, color clr, int x, int y, Button btn)
+        {
+            switch (Name)
+            {
+                case pieceName.Empty:
+                    Board[x, y] = new Empty { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.Pawn:
+                    Board[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.King:
+                    Board[x, y] = new King { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.Knight:
+                    Board[x, y] = new Knight { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.Bishop:
+                    Board[x, y] = new Bishop { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.Rook:
+                    Board[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn };
+                    break;
+                case pieceName.Queen:
+                    Board[x, y] = new Queen { Color = clr, x = x, y = y, Button = btn };
+                    break;
+            }
+        }
 
-        private static Button CreateButton(pieceName Name,color clr,  int x, int y, Style style = null)
+        public static Button CreateButton(pieceName Name, color clr, int x, int y)
         {
             string name = "";
             switch (Name)
@@ -59,21 +90,22 @@ namespace ChessGameWPF
             {
                 Background = Brushes.Transparent,
                 BorderBrush = Brushes.Transparent,
+                BorderThickness = new Thickness(5),
                 Content = new Image
                 {
                     Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{name}.png")),
                     Stretch = Stretch.Fill
                 }
             };
+            btn.Click += Button_Click;
             btn.Name = $"_{x}_{y}";
-            if (Name == pieceName.Empty)
-                btn.Style = style;
             Grid.SetRow(btn, x);
             Grid.SetColumn(btn, y);
+            CreatePieces(Name, clr, x, y, btn);
             return btn;
         }
 
-        public static void CreateBoard(Style style, Grid grid)
+        public static void CreateBoard(Style style)
         {
             grid.Children.Add(CreateButton(pieceName.Rook, color.black, 0, 0));
             grid.Children.Add(CreateButton(pieceName.Rook, color.black, 0, 7));
@@ -102,16 +134,51 @@ namespace ChessGameWPF
             for (int i = 0; i < Board.GetLength(1); i++)
             {
                 grid.Children.Add(CreateButton(pieceName.Pawn, color.black, 1, i));
+
                 grid.Children.Add(CreateButton(pieceName.Pawn, color.white, 6, i));
             }
-            for (int i = 2; i < Board.GetLength(0)-2; i++)
+            for (int i = 2; i < Board.GetLength(0) - 2; i++)
             {
-                for (int l = 0; l < Board.GetLength(1)-2; l++)
+                for (int l = 0; l < Board.GetLength(1); l++)
                 {
-                    grid.Children.Add(CreateButton(pieceName.Empty, color.none, i, l, style));
+                    grid.Children.Add(CreateButton(pieceName.Empty, color.none, i, l));
                 }
             }
         }
 
+        private static void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            int xM = int.Parse(btn.Name.Split('_')[1]);
+            int yM = int.Parse(btn.Name.Split('_')[2]);
+            if (ChessBoard.Board[xM, yM].Color != color.none)
+            {
+                btn.BorderBrush = Brushes.Red;
+            }
+            if (isSelected)
+            {
+                Piece[,] board = (Piece[,])Board.Clone();
+                Board[x, y].Button.BorderBrush = Brushes.Transparent;
+                Board[xM, yM].Button.BorderBrush = Brushes.Transparent;
+                if (Board[x, y].tryMove(xM, yM, board))
+                    Board[x, y].Move(xM, yM);
+                isSelected = false;
+                Clear_Moves();
+            }
+            else
+            {
+                x = xM;
+                y = yM;
+                isSelected = true;
+                Board[x, y].showMoves(x, y);
+            }
+        }
+
+        private static void Clear_Moves()
+        {
+            foreach (var item in Board)
+                item.Button.BorderBrush = Brushes.Transparent;
+        }
     }
 }

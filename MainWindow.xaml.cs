@@ -18,14 +18,16 @@ namespace ChessGameWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary> 
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
             Style style = this.FindResource("Empty") as Style;
-            ChessBoard.CreateBoard(style, Grid_Chess_Board);
+            ChessBoard.grid = Grid_Chess_Board;
+            ChessBoard.CreateBoard(style);
         }
     }
 }
