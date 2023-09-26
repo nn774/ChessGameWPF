@@ -10,6 +10,7 @@ namespace ChessGameWPF.piece
     internal class Rook : Piece
     {
         public override pieceName PieceName => pieceName.Rook;
+        public bool HasMoved { get; set; } = false;
 
         public override bool CanMove(int xMove, int yMove, Piece[,] Board, bool isChecking = false)
         {

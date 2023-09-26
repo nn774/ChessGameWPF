@@ -25,7 +25,7 @@ namespace ChessGameWPF
         public static Grid grid;
 
         private static Piece[,] CreatePieces(pieceName Name, color clr, int x, int y, Button btn, Piece[,] boar,
-            bool IsEnpasanto = false, bool isFirst = true)
+            bool isFirst = false, bool IsEnpasanto = false)
         {
             switch (Name)
             {
@@ -33,10 +33,10 @@ namespace ChessGameWPF
                     boar[x, y] = new Empty { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Pawn:
-                    boar[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn, CanEnPassant = IsEnpasanto, isFirstMove = isFirst };
+                    boar[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn, CanEnPassant = IsEnpasanto, HasMoved = isFirst };
                     break;
                 case pieceName.King:
-                    boar[x, y] = new King { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new King { Color = clr, x = x, y = y, Button = btn, HasMoved = isFirst };
                     break;
                 case pieceName.Knight:
                     boar[x, y] = new Knight { Color = clr, x = x, y = y, Button = btn };
@@ -55,7 +55,7 @@ namespace ChessGameWPF
         }
 
         public static Piece[,] CreateButton(pieceName Name, color clr, int x, int y, Piece[,] boar,
-            bool IsEnpasanto = false, bool isFirst = true)
+            bool HasMoved = false, bool IsEnpasanto = false)
         {
             string name = "";
             switch (Name)
@@ -108,7 +108,7 @@ namespace ChessGameWPF
             btn.Name = $"_{x}_{y}";
             Grid.SetRow(btn, x);
             Grid.SetColumn(btn, y);
-            boar = CreatePieces(Name, clr, x, y, btn, boar, IsEnpasanto, isFirst);
+            boar = CreatePieces(Name, clr, x, y, btn, boar, HasMoved, IsEnpasanto);
             return boar;
         }
 

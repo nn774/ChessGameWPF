@@ -19,6 +19,7 @@ namespace ChessGameWPF.piece
         public color Color { get; set; }
         public virtual pieceName PieceName { get; }
         public Button? Button { get; set; }
+        public virtual bool HasMoved { get; set; } = false;
 
         public object Clone()
         {
@@ -27,7 +28,7 @@ namespace ChessGameWPF.piece
 
         public virtual bool CanMove(int xM, int yM, Piece[,] Board, bool isChecking = false)
         {
-            if (IsInCheck(Color, Move(xM, yM, (Piece[,])Board.Clone(), false)))
+            if (IsInCheck(Color, (Piece[,])Move(xM, yM, (Piece[,])Board.Clone(), false).Clone()))
                 return true;
             return false;
         }
@@ -99,16 +100,31 @@ namespace ChessGameWPF.piece
             return (King)king.Clone();
         }
 
-        public static bool IsInCheck(color color, Piece[,] Board)
+        public static bool IsInCheck(color color, Piece[,] Board, int thrx = -1, int thry = -1)
         {
             King king = SearchKing(color, Board);
-            for (int i = 0; i < Board.GetLength(0); i++)
+            if (thrx == -1 && thry == -1)
             {
-                for (int l = 0; l < Board.GetLength(1); l++)
+                for (int i = 0; i < Board.GetLength(0); i++)
                 {
-                    if (Board[i,l].Color != color)
-                        if (Board[i, l].CanMove(king.x, king.y, Board, true))
-                            return true;
+                    for (int l = 0; l < Board.GetLength(1); l++)
+                    {
+                        if (Board[i, l].Color != color)
+                            if (Board[i, l].CanMove(king.x, king.y, Board, true))
+                                return true;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Board.GetLength(0); i++)
+                {
+                    for (int l = 0; l < Board.GetLength(1); l++)
+                    {
+                        if (Board[i, l].Color != color)
+                            if (Board[i, l].CanMove(thrx, thry, Board, true))
+                                return true;
+                    }
                 }
             }
             return false;

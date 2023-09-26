@@ -14,7 +14,6 @@ namespace ChessGameWPF.piece
     {
         public override pieceName PieceName => pieceName.Pawn;
         public bool CanEnPassant { get; set; } = false;
-        public bool isFirstMove { get; set; } = true;
 
         public override bool CanMove(int xM, int yM, Piece[,] Board, bool isChecking = false)
         {
@@ -30,7 +29,7 @@ namespace ChessGameWPF.piece
                 else if (deltaX == 1 && deltaY == 1 && Board[xM, yM].PieceName == pieceName.Empty &&
                    Board[x, yM] is Pawn && this.CanEnPassant)
                     return true;
-                else if (isFirstMove && deltaX == 2 && deltaY == 0 && Board[xM, yM].PieceName == pieceName.Empty &&
+                else if (!HasMoved && deltaX == 2 && deltaY == 0 && Board[xM, yM].PieceName == pieceName.Empty &&
                     Board[x + 1, y].PieceName == pieceName.Empty)
                     return true;
                 else if (deltaX == 1 && deltaY == 1 && Board[xM, yM].Color == color.white)
@@ -43,7 +42,7 @@ namespace ChessGameWPF.piece
                 else if (deltaX == -1 && deltaY == 1 && Board[xM, yM].PieceName == pieceName.Empty &&
                    Board[x, yM] is Pawn && this.CanEnPassant)
                     return true;
-                else if (isFirstMove && deltaX == -2 && deltaY == 0 && Board[xM, yM].PieceName == pieceName.Empty &&
+                else if (!HasMoved && deltaX == -2 && deltaY == 0 && Board[xM, yM].PieceName == pieceName.Empty &&
                     Board[x - 1, y].PieceName == pieceName.Empty)
                     return true;
                 else if (deltaX == -1 && deltaY == 1 && Board[xM, yM].Color == color.black)
@@ -64,7 +63,7 @@ namespace ChessGameWPF.piece
                 }
             }
             base.Move(xM, yM, Board, isRealMove);
-            if (isFirstMove && Math.Abs(xM - x) == 2)
+            if (!HasMoved && Math.Abs(xM - x) == 2)
             {
                 if (yM != 0)
                     if (Board[xM, yM - 1].PieceName == pieceName.Pawn)
@@ -82,8 +81,8 @@ namespace ChessGameWPF.piece
             
             if (isRealMove)
             {
-                isFirstMove = false;
-                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, isFirstMove, CanEnPassant);
+                HasMoved = true;
+                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
                 Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
                 ChessBoard.grid.Children.Add(Board[xM, yM].Button);
                 ChessBoard.grid.Children.Add(Board[x, y].Button);
