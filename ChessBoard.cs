@@ -114,41 +114,41 @@ namespace ChessGameWPF
 
         public static void CreateBoard(Style style)
         {
-            Board = CreateButton(pieceName.Rook, color.black, 0, 0, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Rook, color.black, 0, 7, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Rook, color.black, 0, 0, Board);
+            Board = CreateButton(pieceName.Rook, color.black, 0, 7, Board);
 
-            Board = CreateButton(pieceName.Rook, color.white, 7, 0, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Rook, color.white, 7, 7, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Rook, color.white, 7, 0, Board);
+            Board = CreateButton(pieceName.Rook, color.white, 7, 7, Board);
 
-            Board = CreateButton(pieceName.Knight, color.black, 0, 1, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Knight, color.black, 0, 6, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Knight, color.black, 0, 1, Board);
+            Board = CreateButton(pieceName.Knight, color.black, 0, 6, Board);
 
-            Board = CreateButton(pieceName.Knight, color.white, 7, 1, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Knight, color.white, 7, 6, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Knight, color.white, 7, 1, Board);
+            Board = CreateButton(pieceName.Knight, color.white, 7, 6, Board);
 
-            Board = CreateButton(pieceName.Bishop, color.black, 0, 2, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Bishop, color.black, 0, 5, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Bishop, color.black, 0, 2, Board);
+            Board = CreateButton(pieceName.Bishop, color.black, 0, 5, Board);
 
-            Board = CreateButton(pieceName.Bishop, color.white, 7, 2, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.Bishop, color.white, 7, 5, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Bishop, color.white, 7, 2, Board);
+            Board = CreateButton(pieceName.Bishop, color.white, 7, 5, Board);
 
-            Board = CreateButton(pieceName.Queen, color.black, 0, 3, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.King, color.black, 0, 4, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Queen, color.black, 0, 3, Board);
+            Board = CreateButton(pieceName.King, color.black, 0, 4, Board);
 
-            Board = CreateButton(pieceName.Queen, color.white, 7, 3, (Piece[,])Board.Clone());
-            Board = CreateButton(pieceName.King, color.white, 7, 4, (Piece[,])Board.Clone());
+            Board = CreateButton(pieceName.Queen, color.white, 7, 3, Board);
+            Board = CreateButton(pieceName.King, color.white, 7, 4, Board);
 
             for (int i = 0; i < Board.GetLength(1); i++)
             {
-                Board = CreateButton(pieceName.Pawn, color.black, 1, i, (Piece[,])Board.Clone());
+                Board = CreateButton(pieceName.Pawn, color.black, 1, i, Board);
 
-                Board = CreateButton(pieceName.Pawn, color.white, 6, i, (Piece[,])Board.Clone());
+                Board = CreateButton(pieceName.Pawn, color.white, 6, i, Board);
             }
             for (int i = 2; i < Board.GetLength(0) - 2; i++)
             {
                 for (int l = 0; l < Board.GetLength(1); l++)
                 {
-                    Board = CreateButton(pieceName.Empty, color.none, i, l, (Piece[,])Board.Clone());
+                    Board = CreateButton(pieceName.Empty, color.none, i, l, Board);
                 }
             }
             for (int i = 0; i < Board.GetLength(0); i++)
@@ -182,14 +182,25 @@ namespace ChessGameWPF
                 }
                 isSelected = false;
                 Clear_Moves();
+                CheckWin();
             }
-            else
+            else if (Board[xM, yM].PieceName != pieceName.Empty)
             {
                 x = xM;
                 y = yM;
                 isSelected = true;
                 Board[x, y].showMoves(x, y);
             }
+        }
+
+        private static void CheckWin()
+        {
+            if (Piece.IsInCheck(color.black, Board))
+                if (Piece.IsMate(color.black, (Piece[,])Board.Clone()))
+                    MessageBox.Show($"Победа {color.white}");
+            if (Piece.IsInCheck(color.white, Board))
+                if (Piece.IsMate(color.white, (Piece[,])Board.Clone()))
+                    MessageBox.Show($"Победа {color.black}");
         }
 
         private static void Clear_Moves()

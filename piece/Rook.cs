@@ -11,12 +11,12 @@ namespace ChessGameWPF.piece
     {
         public override pieceName PieceName => pieceName.Rook;
 
-        public override bool CanMove(int xMove, int yMove, Piece[,] board)
+        public override bool CanMove(int xMove, int yMove, Piece[,] Board, bool isChecking = false)
         {
             return false;
         }
 
-        public override Piece[,] Move(int xM, int yM, Piece[,] Board)
+        public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             return Board;
         }

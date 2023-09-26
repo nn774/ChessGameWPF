@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace ChessGameWPF.piece
 {
@@ -23,8 +25,10 @@ namespace ChessGameWPF.piece
             return this.MemberwiseClone();
         }
 
-        public virtual bool CanMove(int xM, int yM, Piece[,] board)
+        public virtual bool CanMove(int xM, int yM, Piece[,] Board, bool isChecking = false)
         {
+            if (IsInCheck(Color, Move(xM, yM, (Piece[,])Board.Clone(), false)))
+                return true;
             return false;
         }
 
@@ -49,42 +53,136 @@ namespace ChessGameWPF.piece
                 ChessBoard.isHaveEnPassanto = false;
         }
 
-        public virtual Piece[,] Move(int xM, int yM, Piece[,] Board)
+        public virtual Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             if (ChessBoard.isHaveEnPassanto)
                 ClearEnPassanto(Board);
-
-            ChessBoard.grid.Children.Remove(Board[x, y].Button);
-            ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
+            if (isRealMove)
+            {
+                ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
+                ChessBoard.grid.Children.Remove(Board[x, y].Button);
+            }
             Board[xM, yM] = (Piece)this.Clone();
+            
             Board[xM, yM].x = xM;
             Board[xM, yM].y = yM;
-            if (this.PieceName != pieceName.Pawn)
+
+           
+            if (PieceName != pieceName.Pawn)
             {
-                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, (Piece[,])Board.Clone());
-                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, (Piece[,])Board.Clone());
+                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board);
+                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
+            }
+
+            if (PieceName != pieceName.Pawn && isRealMove)
+            {
                 ChessBoard.grid.Children.Add(Board[xM, yM].Button);
                 ChessBoard.grid.Children.Add(Board[x, y].Button);
             }
             return Board;
         }
-        
-        public void showMoves(int x, int y)
+
+        public static King SearchKing(color color, Piece[,] Board)
         {
-            List<Moves> list = new List<Moves>();
+            King king = new King();
+            for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < Board.GetLength(1); l++)
+                {
+                    if (Board[i, l].PieceName == pieceName.King && Board[i, l].Color == color)
+                    {
+                        king = Board[i, l] as King;
+                        break;
+                    }
+                }
+            }
+            return (King)king.Clone();
+        }
+
+        public static bool IsInCheck(color color, Piece[,] Board)
+        {
+            King king = SearchKing(color, Board);
+            for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < Board.GetLength(1); l++)
+                {
+                    if (Board[i,l].Color != color)
+                        if (Board[i, l].CanMove(king.x, king.y, Board, true))
+                            return true;
+                }
+            }
+            return false;
+        }
+
+        public static Piece[,] clonePieces()
+        {
+            Piece[,] pieces = new Piece[ChessBoard.Board.GetLength(0), ChessBoard.Board.GetLength(1)];
             for (int i = 0; i < ChessBoard.Board.GetLength(0); i++)
             {
                 for (int l = 0; l < ChessBoard.Board.GetLength(1); l++)
                 {
-                    if (ChessBoard.Board[x,y].CanMove(i, l, (Piece[,])ChessBoard.Board.Clone()))
+                    pieces[i, l] = (Piece)ChessBoard.Board[i, l].Clone();
+                }
+            }
+            return pieces;
+        }
+
+        public static bool IsMate(color color, Piece[,] Board)
+        {
+            King king = SearchKing(color, Board);
+            List<Piece> pieces = GetPieces(color);
+            foreach (var item in pieces)
+            {
+                List<Moves> moves = GetMoves(item.x, item.y, Board);
+                foreach (var move in moves)
+                {
+                    Piece[,] newBoard = item.Move(move.x, move.y, (Piece[,])Board.Clone(), false);
+                    if (!IsInCheck(color, newBoard))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        private static List<Moves> GetMoves(int x, int y, Piece[,] Board)
+        {
+            List<Moves> list = new List<Moves>();
+            Piece piece = Board[x, y];
+            for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < Board.GetLength(1); l++)
+                {
+                    if (piece.CanMove(i, l, Board, false))
                     {
                         list.Add(new Moves { x = i, y = l });
                     }
                 }
             }
+            return list;
+        }
+
+        private static List<Piece> GetPieces(color clr)
+        {
+            List<Piece> list = new List<Piece>();
+            for (int i = 0; i < ChessBoard.Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < ChessBoard.Board.GetLength(1); l++)
+                {
+                    if (ChessBoard.Board[i, l].Color == clr)
+                        list.Add((Piece)ChessBoard.Board[i, l].Clone());
+                }
+            }
+            return list;
+        }
+
+        public void showMoves(int x, int y)
+        {
+            List<Moves> list = GetMoves(x, y, ChessBoard.Board);
             foreach (var item in list)
             {
-                ChessBoard.Board[item.x, item.y].Button.BorderBrush = System.Windows.Media.Brushes.Green;
+                ChessBoard.Board[item.x, item.y].Button.BorderBrush = Brushes.Green;
             }
         }
     }
