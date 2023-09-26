@@ -63,6 +63,7 @@ namespace ChessGameWPF.piece
                 }
             }
             base.Move(xM, yM, Board, isRealMove);
+            if (isRealMove)
             if (!HasMoved && Math.Abs(xM - x) == 2)
             {
                 if (yM != 0)

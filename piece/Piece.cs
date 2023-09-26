@@ -56,7 +56,7 @@ namespace ChessGameWPF.piece
 
         public virtual Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
-            if (ChessBoard.isHaveEnPassanto)
+            if (ChessBoard.isHaveEnPassanto && isRealMove)
                 ClearEnPassanto(Board);
             if (isRealMove)
             {
