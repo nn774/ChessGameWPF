@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace ChessGameWPF.piece
@@ -27,29 +28,31 @@ namespace ChessGameWPF.piece
             return false;
         }
 
+        private void ClearEnPassanto(Piece[,] Board)
+        {
+            bool alsohave = false;
+            for (int i = 0; i < Board.GetLength(0); i++)
+            {
+                for (int l = 0; l < Board.GetLength(1); l++)
+                {
+                    if (Board[i, l].PieceName == pieceName.Pawn &&
+                        this.Color == Board[i, l].Color)
+                        (Board[i, l] as Pawn).CanEnPassant = false;
+                    if (Board[i, l].PieceName == pieceName.Pawn)
+                        if ((Board[i, l] as Pawn).CanEnPassant)
+                            alsohave = true;
+                }
+            }
+            if (alsohave)
+                ChessBoard.isHaveEnPassanto = true;
+            else
+                ChessBoard.isHaveEnPassanto = false;
+        }
 
         public virtual Piece[,] Move(int xM, int yM, Piece[,] Board)
         {
             if (ChessBoard.isHaveEnPassanto)
-            {
-                bool alsohave = false;
-                for (int i = 0; i < Board.GetLength(0); i++)
-                {
-                    for (int l = 0; l < Board.GetLength(1); l++)
-                    {
-                        if (Board[i, l].PieceName == pieceName.Pawn &&
-                            this.Color == Board[i,l].Color)
-                            (Board[i, l] as Pawn).CanEnPassant = false;
-                        if (Board[i, l].PieceName == pieceName.Pawn)
-                            if ((Board[i, l] as Pawn).CanEnPassant)
-                                alsohave = true;
-                    }
-                }
-                if (alsohave)
-                    ChessBoard.isHaveEnPassanto = true;
-                else
-                    ChessBoard.isHaveEnPassanto = false;
-            }
+                ClearEnPassanto(Board);
 
             ChessBoard.grid.Children.Remove(Board[x, y].Button);
             ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
