@@ -45,7 +45,7 @@ namespace ChessGameWPF
                     boar[x, y] = new Bishop { Color = clr, x = x, y = y, Button = btn };
                     break;
                 case pieceName.Rook:
-                    boar[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn, HasMoved = isFirst };
                     break;
                 case pieceName.Queen:
                     boar[x, y] = new Queen { Color = clr, x = x, y = y, Button = btn };

@@ -71,7 +71,7 @@ namespace ChessGameWPF.piece
            
             if (PieceName != pieceName.Pawn)
             {
-                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board);
+                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved);
                 Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
             }
 

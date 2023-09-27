@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessGameWPF.Enum
 {
-    enum color
+    public enum color
     {
         black, white, none
     }

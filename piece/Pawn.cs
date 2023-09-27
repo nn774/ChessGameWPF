@@ -2,6 +2,7 @@
 using ChessGameWPF.piece;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace ChessGameWPF.piece
 {
     internal class Pawn : Piece
     {
+        public static pieceName newName = pieceName.Empty;
         public override pieceName PieceName => pieceName.Pawn;
         public bool CanEnPassant { get; set; } = false;
 
@@ -84,13 +86,25 @@ namespace ChessGameWPF.piece
             if (isRealMove)
             {
                 HasMoved = true;
-                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
+                if (xM == 0 || xM == 7)
+                {
+                    TransformationWIn win = new TransformationWIn();
+                    TransformationWIn.xM = xM;
+                    TransformationWIn.yM = yM;
+                    TransformationWIn.Color = Color;
+                    win.ShowDialog();
+                    ChessBoard.CreateButton(newName, Color, xM, yM, Board);
+                    ChessBoard.grid.Children.Add(Board[xM, yM].Button);
+                }
+                else
+                {
+                    Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
+                    ChessBoard.grid.Children.Add(Board[xM, yM].Button);
+                }
                 Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
-                ChessBoard.grid.Children.Add(Board[xM, yM].Button);
                 ChessBoard.grid.Children.Add(Board[x, y].Button);
             }
             return Board;
         }
-
     }
 }
