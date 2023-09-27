@@ -183,6 +183,7 @@ namespace ChessGameWPF
                 isSelected = false;
                 Clear_Moves();
                 CheckWin();
+                CheckPat();
             }
             else if (Board[xM, yM].PieceName != pieceName.Empty)
             {
@@ -201,6 +202,12 @@ namespace ChessGameWPF
             if (Piece.IsInCheck(color.white, Board))
                 if (Piece.IsMate(color.white, (Piece[,])Board.Clone()))
                     MessageBox.Show($"Победа {color.black}");
+        }
+
+        private static void CheckPat()
+        {
+            if (Piece.IsPat(Board))
+                MessageBox.Show($"Пат!!!");
         }
 
         private static void Clear_Moves()

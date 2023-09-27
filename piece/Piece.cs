@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 
@@ -159,6 +160,45 @@ namespace ChessGameWPF.piece
             }
 
             return true;
+        }
+
+        public static bool IsPat(Piece[,] Board)
+        {
+            bool ispatWhite = true;
+            bool ispatBlack = true;
+            List<Piece> piecesWhite = GetPieces(color.white);
+            List<Piece> piecesBlack = GetPieces(color.black);
+            if (piecesWhite.Count == 1 && piecesBlack.Count == 1)
+                return true;
+            if (piecesWhite.Count == 1 && piecesBlack.Count == 2)
+                if (piecesBlack[0].PieceName == pieceName.Bishop || piecesBlack[0].PieceName == pieceName.Knight ||
+                piecesBlack[1].PieceName == pieceName.Bishop || piecesBlack[1].PieceName == pieceName.Knight)
+                    return true;
+            if (piecesWhite.Count == 2 && piecesBlack.Count == 1)
+                if (piecesWhite[0].PieceName == pieceName.Bishop || piecesWhite[0].PieceName == pieceName.Knight ||
+                    piecesWhite[1].PieceName == pieceName.Bishop || piecesWhite[1].PieceName == pieceName.Knight)
+                    return true;
+            foreach (var item in piecesBlack)
+            {
+                List<Moves> moves = GetMoves(item.x, item.y, Board);
+                if (moves.Count != 0)
+                {
+                    ispatBlack = false;
+                    break;
+                }
+            }
+            foreach (var item in piecesWhite)
+            {
+                List<Moves> moves = GetMoves(item.x, item.y, Board);
+                if (moves.Count != 0)
+                {
+                    ispatWhite = false;
+                    break;
+                }
+            }
+            if (ispatBlack || ispatWhite)
+                return true;
+            return false;
         }
 
         private static List<Moves> GetMoves(int x, int y, Piece[,] Board)
