@@ -61,6 +61,13 @@ namespace ChessGameWPF.piece
                 ClearEnPassanto(Board);
             if (isRealMove)
             {
+                if (ChessBoard.now == color.white)
+                    ChessBoard.now = color.black;
+                else
+                    ChessBoard.now = color.white;
+            }
+            if (isRealMove)
+            {
                 ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
                 ChessBoard.grid.Children.Remove(Board[x, y].Button);
             }

@@ -10,11 +10,13 @@ using System.Windows;
 using ChessGameWPF.piece;
 using System.Reflection.Metadata;
 using ChessGameWPF.Enum;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChessGameWPF
 {
     internal class ChessBoard
     {
+        public static color now = color.white;
         public static Piece[,] Board = new Piece[8, 8];
 
         public static bool isHaveEnPassanto = false;
@@ -166,10 +168,6 @@ namespace ChessGameWPF
 
             int xM = int.Parse(btn.Name.Split('_')[1]);
             int yM = int.Parse(btn.Name.Split('_')[2]);
-            if (ChessBoard.Board[xM, yM].Color != color.none)
-            {
-                btn.BorderBrush = Brushes.Red;
-            }
             if (isSelected)
             {
                 Board[x, y].Button.BorderBrush = Brushes.Transparent;
@@ -182,11 +180,15 @@ namespace ChessGameWPF
                 }
                 isSelected = false;
                 Clear_Moves();
-                CheckWin();
-                CheckPat();
+                if (!CheckWin())
+                    CheckPat();
             }
             else if (Board[xM, yM].PieceName != pieceName.Empty)
             {
+                if (now != ChessBoard.Board[xM, yM].Color)
+                    return;
+                if (ChessBoard.Board[xM, yM].Color != color.none)
+                    btn.BorderBrush = Brushes.Red;
                 x = xM;
                 y = yM;
                 isSelected = true;
@@ -194,14 +196,21 @@ namespace ChessGameWPF
             }
         }
 
-        private static void CheckWin()
+        private static bool CheckWin()
         {
             if (Piece.IsInCheck(color.black, Board))
                 if (Piece.IsMate(color.black, (Piece[,])Board.Clone()))
+                {
                     MessageBox.Show($"Победа {color.white}");
+                    return true;
+                }
             if (Piece.IsInCheck(color.white, Board))
                 if (Piece.IsMate(color.white, (Piece[,])Board.Clone()))
+                {
                     MessageBox.Show($"Победа {color.black}");
+                    return true;
+                }
+            return false;
         }
 
         private static void CheckPat()
