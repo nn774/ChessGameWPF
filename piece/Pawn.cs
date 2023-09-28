@@ -59,32 +59,33 @@ namespace ChessGameWPF.piece
             if (CanEnPassant && Math.Abs(yM - y) == 1)
             {  
                 if (isRealMove)
-                {
                     ChessBoard.grid.Children.Remove(Board[x, yM].Button);
-                    Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, yM, Board);
+                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, yM, Board);
+                if (isRealMove)
                     ChessBoard.grid.Children.Add(Board[x, yM].Button);
-                }
             }
             base.Move(xM, yM, Board, isRealMove);
             if (isRealMove)
-            if (!HasMoved && Math.Abs(xM - x) == 2)
-            {
-                if (yM != 0)
-                    if (Board[xM, yM - 1].PieceName == pieceName.Pawn)
-                    {
-                        (Board[xM, yM - 1] as Pawn).CanEnPassant = true;
-                        ChessBoard.isHaveEnPassanto = true;
-                    }
-                if(yM != 7)
-                    if (Board[xM, yM + 1].PieceName == pieceName.Pawn)
-                    {
-                        (Board[xM, yM + 1] as Pawn).CanEnPassant = true;
-                        ChessBoard.isHaveEnPassanto = true;
-                    }
-            }
-            
+                if (!HasMoved && Math.Abs(xM - x) == 2)
+                {
+                    if (yM != 0)
+                        if (Board[xM, yM - 1].PieceName == pieceName.Pawn)
+                        {
+                            (Board[xM, yM - 1] as Pawn).CanEnPassant = true;
+                            ChessBoard.isHaveEnPassanto = true;
+                        }
+                    if (yM != 7)
+                        if (Board[xM, yM + 1].PieceName == pieceName.Pawn)
+                        {
+                            (Board[xM, yM + 1] as Pawn).CanEnPassant = true;
+                            ChessBoard.isHaveEnPassanto = true;
+                        }
+                }
+
+            Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
             if (isRealMove)
             {
+                ChessBoard.grid.Children.Add(Board[x, y].Button);
                 HasMoved = true;
                 if (xM == 0 || xM == 7)
                 {
@@ -96,14 +97,10 @@ namespace ChessGameWPF.piece
                     ChessBoard.CreateButton(newName, Color, xM, yM, Board);
                     ChessBoard.grid.Children.Add(Board[xM, yM].Button);
                 }
-                else
-                {
-                    Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
-                    ChessBoard.grid.Children.Add(Board[xM, yM].Button);
-                }
-                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
-                ChessBoard.grid.Children.Add(Board[x, y].Button);
             }
+            Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
+            if(isRealMove)
+                ChessBoard.grid.Children.Add(Board[xM, yM].Button);
             return Board;
         }
     }
