@@ -1,4 +1,5 @@
-﻿using ChessGameWPF.Enum;
+﻿using ChessGameWPF.boardSctripts;
+using ChessGameWPF.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace ChessGameWPF.piece
                     }
                     if (Board[x, 7] is Rook && !Board[x, 7].HasMoved)
                     {
-                        if (!IsInCheck(Color, Board, x, y) && !IsInCheck(Color, Board, x, y + 1))
+                        if (!Checkings.IsInCheck(Color, Board, x, y) && !Checkings.IsInCheck(Color, Board, x, y + 1))
                         {
                             return true;
                         }
@@ -62,7 +63,7 @@ namespace ChessGameWPF.piece
 
                     if (Board[x, 0] is Rook && !Board[x, 0].HasMoved)
                     {
-                        if (!IsInCheck(Color, Board, x, y) && !IsInCheck(Color, Board, x, y - 1))
+                        if (!Checkings.IsInCheck(Color, Board, x, y) && !Checkings.IsInCheck(Color, Board, x, y - 1))
                         {
                             return true;
                         }
@@ -113,6 +114,11 @@ namespace ChessGameWPF.piece
                         ChessBoard.grid.Children.Add(Board[x, 0].Button);
                         ChessBoard.grid.Children.Add(Board[x, 4].Button);
                     }
+                    if (ChessBoard.now == color.white)
+                        ChessBoard.now = color.black;
+                    else
+                        ChessBoard.now = color.white;
+                    this.ClearEnPassanto(Board);
                     return Board;
                 }
             }

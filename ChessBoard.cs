@@ -10,6 +10,7 @@ using System.Windows;
 using ChessGameWPF.piece;
 using System.Reflection.Metadata;
 using ChessGameWPF.Enum;
+using ChessGameWPF.boardSctripts;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ChessGameWPF
@@ -198,14 +199,14 @@ namespace ChessGameWPF
 
         private static bool CheckWin()
         {
-            if (Piece.IsInCheck(color.black, Board))
-                if (Piece.IsMate(color.black, (Piece[,])Board.Clone()))
+            if (Checkings.IsInCheck(color.black, Board))
+                if (Checkings.IsMate(color.black, (Piece[,])Board.Clone()))
                 {
                     MessageBox.Show($"Победа {color.white}");
                     return true;
                 }
-            if (Piece.IsInCheck(color.white, Board))
-                if (Piece.IsMate(color.white, (Piece[,])Board.Clone()))
+            if (Checkings.IsInCheck(color.white, Board))
+                if (Checkings.IsMate(color.white, (Piece[,])Board.Clone()))
                 {
                     MessageBox.Show($"Победа {color.black}");
                     return true;
@@ -215,7 +216,7 @@ namespace ChessGameWPF
 
         private static void CheckPat()
         {
-            if (Piece.IsPat(Board))
+            if (Checkings.IsPat(Board))
                 MessageBox.Show($"Пат!!!");
         }
 
