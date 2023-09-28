@@ -31,16 +31,16 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Background="#FF90F2FF">
+    <Grid Background="#FF966888">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="75*"/>
             <ColumnDefinition Width="600*"/>
-            <ColumnDefinition Width="350*"/>
+            <ColumnDefinition Width="325*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="75*"/>
             <RowDefinition Height="600*"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="75*"/>
         </Grid.RowDefinitions>
         <Image Grid.Row="1" Grid.Column="1" Stretch="Fill" Source="/Images/Chessboard.bmp"/>
         <Grid x:Name="Grid_Chess_Board" Grid.Column="1" Grid.Row="1">
@@ -54,6 +54,19 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
+        
+        <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>

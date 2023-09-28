@@ -102,7 +102,7 @@ namespace ChessGameWPF
                 BorderThickness = new Thickness(5),
                 Content = new Image
                 {
-                    Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{name}.png")),
+                    Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{name}.bmp")),
                     Stretch = Stretch.Fill
                 }
             };
@@ -188,7 +188,7 @@ namespace ChessGameWPF
                 if (now != ChessBoard.Board[xM, yM].Color)
                     return;
                 if (ChessBoard.Board[xM, yM].Color != color.none)
-                    btn.BorderBrush = Brushes.Red;
+                    btn.BorderBrush = Brushes.DarkBlue;
                 x = xM;
                 y = yM;
                 isSelected = true;

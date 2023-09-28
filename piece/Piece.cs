@@ -244,7 +244,7 @@ namespace ChessGameWPF.piece
             List<Moves> list = GetMoves(x, y, ChessBoard.Board);
             foreach (var item in list)
             {
-                ChessBoard.Board[item.x, item.y].Button.BorderBrush = Brushes.Green;
+                ChessBoard.Board[item.x, item.y].Button.BorderBrush = Brushes.Red;
             }
         }
 

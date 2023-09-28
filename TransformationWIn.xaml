@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessGameWPF"
         mc:Ignorable="d"
-        Title="TransformationWIn" Height="200" Width="400" ResizeMode="NoResize" Icon="/Images/Pawn_W.png" WindowStyle="None">
+        Title="TransformationWIn" Height="200" Width="400" ResizeMode="NoResize" Icon="/Images/Pawn_W.bmp" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,22 +20,22 @@
         </Grid.RowDefinitions>
         <Button Grid.Row="1" Grid.Column="0" Click="Button_Click">
             <Button.Background>
-                <ImageBrush ImageSource="/Images/Queen_W.png"/>
+                <ImageBrush ImageSource="/Images/Queen_W.bmp"/>
             </Button.Background>
         </Button>
         <Button Grid.Row="1" Grid.Column="1" Click="Button_Click_1">
             <Button.Background>
-                <ImageBrush ImageSource="/Images/Rook_W.png"/>
+                <ImageBrush ImageSource="/Images/Rook_W.bmp"/>
             </Button.Background>
         </Button>
         <Button Grid.Row="1" Grid.Column="2" Click="Button_Click_2">
             <Button.Background>
-                <ImageBrush ImageSource="/Images/Bishop_W.png"/>
+                <ImageBrush ImageSource="/Images/Bishop_W.bmp"/>
             </Button.Background>
         </Button>
         <Button Grid.Row="1" Grid.Column="3" Click="Button_Click_3">
             <Button.Background>
-                <ImageBrush ImageSource="/Images/Knight_W.png"/>
+                <ImageBrush ImageSource="/Images/Knight_W.bmp"/>
             </Button.Background>
         </Button>
     </Grid>

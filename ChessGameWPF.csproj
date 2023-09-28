@@ -8,37 +8,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\Bishop_B.png" />
-    <None Remove="Images\Bishop_W.png" />
+    <None Remove="Images\Bishop_B.bmp" />
+    <None Remove="Images\Bishop_W.bmp" />
     <None Remove="Images\Chessboard.bmp" />
-    <None Remove="Images\Empty.png" />
-    <None Remove="Images\King_B.png" />
-    <None Remove="Images\King_W.png" />
-    <None Remove="Images\Knight_B.png" />
-    <None Remove="Images\Knight_W.png" />
-    <None Remove="Images\Pawn_B.png" />
-    <None Remove="Images\Pawn_W.png" />
-    <None Remove="Images\Queen_B.png" />
-    <None Remove="Images\Queen_W.png" />
-    <None Remove="Images\Rook_B.png" />
-    <None Remove="Images\Rook_W.png" />
+    <None Remove="Images\Empty.bmp" />
+    <None Remove="Images\King_B.bmp" />
+    <None Remove="Images\King_W.bmp" />
+    <None Remove="Images\Knight_B.bmp" />
+    <None Remove="Images\Knight_W.bmp" />
+    <None Remove="Images\Pawn_B.bmp" />
+    <None Remove="Images\Pawn_W.bmp" />
+    <None Remove="Images\Queen_B.bmp" />
+    <None Remove="Images\Queen_W.bmp" />
+    <None Remove="Images\Rook_B.bmp" />
+    <None Remove="Images\Rook_W.bmp" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Bishop_B.png" />
-    <Resource Include="Images\Bishop_W.png" />
+    <Resource Include="Images\Bishop_B.bmp" />
+    <Resource Include="Images\Bishop_W.bmp" />
     <Resource Include="Images\Chessboard.bmp" />
-    <Resource Include="Images\Empty.png" />
-    <Resource Include="Images\King_B.png" />
-    <Resource Include="Images\King_W.png" />
-    <Resource Include="Images\Knight_B.png" />
-    <Resource Include="Images\Knight_W.png" />
-    <Resource Include="Images\Pawn_B.png" />
-    <Resource Include="Images\Pawn_W.png" />
-    <Resource Include="Images\Queen_B.png" />
-    <Resource Include="Images\Queen_W.png" />
-    <Resource Include="Images\Rook_B.png" />
-    <Resource Include="Images\Rook_W.png" />
+    <Resource Include="Images\Empty.bmp" />
+    <Resource Include="Images\King_B.bmp" />
+    <Resource Include="Images\King_W.bmp" />
+    <Resource Include="Images\Knight_B.bmp" />
+    <Resource Include="Images\Knight_W.bmp" />
+    <Resource Include="Images\Pawn_B.bmp" />
+    <Resource Include="Images\Pawn_W.bmp" />
+    <Resource Include="Images\Queen_B.bmp" />
+    <Resource Include="Images\Queen_W.bmp" />
+    <Resource Include="Images\Rook_B.bmp" />
+    <Resource Include="Images\Rook_W.bmp" />
   </ItemGroup>
 
 </Project>
