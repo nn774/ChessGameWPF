@@ -75,7 +75,7 @@ namespace ChessGameWPF.boardSctripts
             return true;
         }
 
-        public static bool IsPat(Piece[,] Board)
+         public static bool IsPat(Piece[,] Board)
         {
             bool ispatWhite = true;
             bool ispatBlack = true;
@@ -87,10 +87,49 @@ namespace ChessGameWPF.boardSctripts
                 if (piecesBlack[0].PieceName == pieceName.Bishop || piecesBlack[0].PieceName == pieceName.Knight ||
                 piecesBlack[1].PieceName == pieceName.Bishop || piecesBlack[1].PieceName == pieceName.Knight)
                     return true;
+
             if (piecesWhite.Count == 2 && piecesBlack.Count == 1)
                 if (piecesWhite[0].PieceName == pieceName.Bishop || piecesWhite[0].PieceName == pieceName.Knight ||
                     piecesWhite[1].PieceName == pieceName.Bishop || piecesWhite[1].PieceName == pieceName.Knight)
                     return true;
+
+            if (piecesWhite.Count == 2 && piecesBlack.Count == 2)
+                foreach (var wItem in piecesWhite)
+                    foreach (var bItem in piecesBlack) 
+                        if (wItem.PieceName == pieceName.Bishop && bItem.PieceName == pieceName.Bishop)
+                            if ((wItem.x + wItem.y) % 2 == (bItem.x + wItem.y) % 2)
+                                return true;
+
+            if (piecesWhite.Count == 1 && piecesBlack.Count == 3)
+            {
+               List<int> ints = new List<int>();
+                for (int i = 0; i < piecesBlack.Count; i++)
+                {
+                    if (piecesBlack[i].PieceName == pieceName.Bishop)
+                        ints.Add(i);
+                }
+                if (ints.Count == 2)
+                {
+                    if ((piecesBlack[ints[0]].x + piecesBlack[ints[0]].y)%2== (piecesBlack[ints[1]].x + piecesBlack[ints[1]].y) % 2)
+                        return true;
+                }
+            }
+
+            if (piecesBlack.Count == 1 && piecesWhite.Count == 3)
+            {
+                List<int> ints = new List<int>();
+                for (int i = 0; i < piecesWhite.Count; i++)
+                {
+                    if (piecesWhite[i].PieceName == pieceName.Bishop)
+                        ints.Add(i);
+                }
+                if (ints.Count == 2)
+                {
+                    if ((piecesWhite[ints[0]].x + piecesWhite[ints[0]].y) % 2 == (piecesWhite[ints[1]].x + piecesWhite[ints[1]].y))
+                        return true;
+                }
+            }
+
             foreach (var item in piecesBlack)
             {
                 List<Moves> moves = Gets.GetMoves(item.x, item.y, Board);
