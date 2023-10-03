@@ -53,7 +53,7 @@ namespace ChessGameWPF.piece
                 }
                 else if (yM < y)
                 {
-                    for (int i = y - 1; i >= yM; i--)
+                    for (int i = y - 1; i >= yM-1; i--)
                     {
                         if (Board[x, i] != null && Board[x, i].PieceName != pieceName.Empty)
                         {
