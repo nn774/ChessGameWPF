@@ -2,15 +2,8 @@
 using ChessGameWPF.Enum;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Navigation;
 
 namespace ChessGameWPF.piece
 {
@@ -70,12 +63,11 @@ namespace ChessGameWPF.piece
                     ChessBoard.now = color.black;
                 else
                     ChessBoard.now = color.white;
-            }
-            if (isRealMove)
-            {
+
                 ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
                 ChessBoard.grid.Children.Remove(Board[x, y].Button);
             }
+
             Board[xM, yM] = (Piece)this.Clone();
             
             Board[xM, yM].x = xM;
