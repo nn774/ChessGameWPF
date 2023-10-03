@@ -22,6 +22,10 @@ namespace ChessGameWPF.piece
         public virtual pieceName PieceName { get; set; }
         public Button? Button { get; set; }
         public virtual bool HasMoved { get; set; } = false;
+        ~Piece() 
+        {
+            Button = null;
+        }
 
         public object Clone()
         {

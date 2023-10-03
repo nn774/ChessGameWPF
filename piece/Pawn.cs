@@ -81,14 +81,14 @@ namespace ChessGameWPF.piece
                 if (!HasMoved && Math.Abs(xM - x) == 2)
                 {
                     if (yM != 0)
-                        if (Board[xM, yM - 1].PieceName == pieceName.Pawn)
+                        if (Board[xM, yM - 1].PieceName == pieceName.Pawn && Board[xM, yM - 1].Color != Color)
                         {
                             (Board[xM, yM - 1] as Pawn).CanEnPassant = true;
                             (Board[xM, yM - 1] as Pawn).IsEnPassantLeft = true;
                             ChessBoard.isHaveEnPassanto = true;
                         }
                     if (yM != 7)
-                        if (Board[xM, yM + 1].PieceName == pieceName.Pawn)
+                        if (Board[xM, yM + 1].PieceName == pieceName.Pawn && Board[xM, yM + 1].Color != Color)
                         {
                             (Board[xM, yM + 1] as Pawn).CanEnPassant = true;
                             (Board[xM, yM + 1] as Pawn).IsEnPassantLeft = false;

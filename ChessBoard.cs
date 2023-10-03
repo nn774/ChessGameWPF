@@ -195,6 +195,7 @@ namespace ChessGameWPF
                 isSelected = true;
                 Board[x, y].showMoves(x, y);
             }
+            GC.Collect();
         }
 
         private static bool CheckWin()
