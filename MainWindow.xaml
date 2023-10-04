@@ -65,7 +65,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
         </Grid>
-        
+
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -77,6 +77,34 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Label Content="8" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="7" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="6" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="5" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="4" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="3" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="2" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="1" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="a" HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="b" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="c" HorizontalAlignment="Center" Grid.Column="2" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="d" HorizontalAlignment="Center" Grid.Column="3" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="e" HorizontalAlignment="Center" Grid.Column="4" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="f" HorizontalAlignment="Center" Grid.Column="5" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="g" HorizontalAlignment="Center" Grid.Column="6" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
+            <Label Content="h" HorizontalAlignment="Center" Grid.Column="7" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
         </Grid>
     </Grid>
 </Window>
