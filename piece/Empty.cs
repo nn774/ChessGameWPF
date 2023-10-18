@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ChessGameWPF.piece
 {
-    [ExcludeFromCodeCoverage]
     public class Empty : Piece
     {
         public override pieceName PieceName => pieceName.Empty;

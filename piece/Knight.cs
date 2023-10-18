@@ -6,7 +6,6 @@ namespace ChessGameWPF.piece
 {
     public class Knight : Piece
     {
-        [ExcludeFromCodeCoverage]
         public override pieceName PieceName => pieceName.Knight;
 
         public override bool CanMove(int xM, int yM, Piece[,] Board, bool isChecking = false)
@@ -23,7 +22,6 @@ namespace ChessGameWPF.piece
             return false;
         }
 
-        [ExcludeFromCodeCoverage]
         public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             return base.Move(xM, yM, Board, isRealMove);

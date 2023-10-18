@@ -1,5 +1,6 @@
 ﻿using ChessGameWPF.Enum;
 using ChessGameWPF.piece;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace ChessGameWPF
@@ -7,7 +8,7 @@ namespace ChessGameWPF
     /// <summary>
     /// Логика взаимодействия для TransformationWIn.xaml
     /// </summary>
-
+    [ExcludeFromCodeCoverage]
     public partial class TransformationWIn : Window
     {
         public static int xM { get; set; } = 0;

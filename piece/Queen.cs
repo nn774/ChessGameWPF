@@ -42,7 +42,6 @@ namespace ChessGameWPF.piece
             return false;
         }
 
-        [ExcludeFromCodeCoverage]
         public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             return base.Move(xM, yM, Board, isRealMove);

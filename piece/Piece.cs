@@ -49,7 +49,6 @@ namespace ChessGameWPF.piece
                 ChessBoard.isHaveEnPassanto = false;
         }
 
-        [ExcludeFromCodeCoverage]
         public virtual Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             if (ChessBoard.isHaveEnPassanto && isRealMove)
@@ -83,7 +82,6 @@ namespace ChessGameWPF.piece
             return Board;
         }
 
-        [ExcludeFromCodeCoverage]
         public void showMoves(int x, int y)
         {
             List<Moves> list = Gets.GetMoves(x, y, ChessBoard.Board);
