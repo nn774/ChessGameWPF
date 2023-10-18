@@ -6,53 +6,57 @@ using System.Windows;
 using ChessGameWPF.piece;
 using ChessGameWPF.Enum;
 using ChessGameWPF.boardSctripts;
+using System.Xml.Linq;
+using System.Runtime.ConstrainedExecution;
 
 namespace ChessGameWPF
 {
-    internal class ChessBoard
+    public class ChessBoard
     {
         public static color now = color.white;
         public static Piece[,] Board = new Piece[8, 8];
 
         public static bool isHaveEnPassanto = false;
         static bool isSelected = false;
+        private static Button[,] btns;
 
         static int x = 0;
         static int y = 0;
         public static Grid grid;
 
-        private static Piece[,] CreatePieces(pieceName Name, color clr, int x, int y, Button btn, Piece[,] boar,
-            bool isFirst = false, bool IsEnpasanto = false)
+        public static Piece[,] CreatePieces(pieceName Name, color clr, int x, int y, Piece[,] boar,
+            bool isFirst = false, bool IsEnpasanto = false, bool ISbtn = false)
         {
             switch (Name)
             {
                 case pieceName.Empty:
-                    boar[x, y] = new Empty { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Empty { Color = clr, x = x, y = y};
                     break;
                 case pieceName.Pawn:
-                    boar[x, y] = new Pawn { Color = clr, x = x, y = y, Button = btn, CanEnPassant = IsEnpasanto, HasMoved = isFirst };
+                    boar[x, y] = new Pawn { Color = clr, x = x, y = y, CanEnPassant = IsEnpasanto, HasMoved = isFirst };
                     break;
                 case pieceName.King:
-                    boar[x, y] = new King { Color = clr, x = x, y = y, Button = btn, HasMoved = isFirst };
+                    boar[x, y] = new King { Color = clr, x = x, y = y, HasMoved = isFirst };
                     break;
                 case pieceName.Knight:
-                    boar[x, y] = new Knight { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Knight { Color = clr, x = x, y = y };
                     break;
                 case pieceName.Bishop:
-                    boar[x, y] = new Bishop { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Bishop { Color = clr, x = x, y = y };
                     break;
                 case pieceName.Rook:
-                    boar[x, y] = new Rook { Color = clr, x = x, y = y, Button = btn, HasMoved = isFirst };
+                    boar[x, y] = new Rook { Color = clr, x = x, y = y, HasMoved = isFirst };
                     break;
                 case pieceName.Queen:
-                    boar[x, y] = new Queen { Color = clr, x = x, y = y, Button = btn };
+                    boar[x, y] = new Queen { Color = clr, x = x, y = y };
                     break;
             }
+            if (ISbtn)
+                CreateButton_(Name, clr, x, y);
             return boar;
         }
 
-        public static Piece[,] CreateButton(pieceName Name, color clr, int x, int y, Piece[,] boar,
-            bool HasMoved = false, bool IsEnpasanto = false)
+        public static string getName(pieceName Name, color clr)
         {
             string name = "";
             switch (Name)
@@ -90,6 +94,11 @@ namespace ChessGameWPF
                     name += "W";
                     break;
             }
+            return name;
+        }
+
+        public static void CreateButton_(pieceName Name, color clr, int x, int y)
+        {
             Button btn = new Button
             {
                 Background = Brushes.Transparent,
@@ -97,7 +106,7 @@ namespace ChessGameWPF
                 BorderThickness = new Thickness(5),
                 Content = new Image
                 {
-                    Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{name}.bmp")),
+                    Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{getName(Name,clr)}.bmp")),
                     Stretch = Stretch.Fill
                 }
             };
@@ -105,56 +114,61 @@ namespace ChessGameWPF
             btn.Name = $"_{x}_{y}";
             Grid.SetRow(btn, x);
             Grid.SetColumn(btn, y);
-            boar = CreatePieces(Name, clr, x, y, btn, boar, HasMoved, IsEnpasanto);
-            return boar;
+            btns[x,y] = btn;
+        }
+
+        public static void EditButton(Button btn, pieceName Name, color clr)
+        {
+            btn.Content = new Image
+            {
+                Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{getName(Name, clr)}.bmp")),
+                Stretch = Stretch.Fill
+            };
         }
 
         public static void CreateBoard(Style style)
         {
-            Board = CreateButton(pieceName.Rook, color.black, 0, 0, Board);
-            Board = CreateButton(pieceName.Rook, color.black, 0, 7, Board);
+            btns = new Button[8,8];
+            CreatePieces(pieceName.Rook, color.black, 0, 0, Board, ISbtn: true);
+            CreatePieces(pieceName.Rook, color.black, 0, 7, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Rook, color.white, 7, 0, Board);
-            Board = CreateButton(pieceName.Rook, color.white, 7, 7, Board);
+            CreatePieces(pieceName.Rook, color.white, 7, 0, Board, ISbtn: true);
+            CreatePieces(pieceName.Rook, color.white, 7, 7, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Knight, color.black, 0, 1, Board);
-            Board = CreateButton(pieceName.Knight, color.black, 0, 6, Board);
+            CreatePieces(pieceName.Knight, color.black, 0, 1, Board, ISbtn: true);
+            CreatePieces(pieceName.Knight, color.black, 0, 6, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Knight, color.white, 7, 1, Board);
-            Board = CreateButton(pieceName.Knight, color.white, 7, 6, Board);
+            CreatePieces(pieceName.Knight, color.white, 7, 1, Board, ISbtn: true);
+            CreatePieces(pieceName.Knight, color.white, 7, 6, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Bishop, color.black, 0, 2, Board);
-            Board = CreateButton(pieceName.Bishop, color.black, 0, 5, Board);
+            CreatePieces(pieceName.Bishop, color.black, 0, 2, Board, ISbtn: true);
+            CreatePieces(pieceName.Bishop, color.black, 0, 5, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Bishop, color.white, 7, 2, Board);
-            Board = CreateButton(pieceName.Bishop, color.white, 7, 5, Board);
+            CreatePieces(pieceName.Bishop, color.white, 7, 2, Board, ISbtn: true);
+            CreatePieces(pieceName.Bishop, color.white, 7, 5, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Queen, color.black, 0, 3, Board);
-            Board = CreateButton(pieceName.King, color.black, 0, 4, Board);
+            CreatePieces(pieceName.Queen, color.black, 0, 3, Board, ISbtn: true);
+            CreatePieces(pieceName.King, color.black, 0, 4, Board, ISbtn: true);
 
-            Board = CreateButton(pieceName.Queen, color.white, 7, 3, Board);
-            Board = CreateButton(pieceName.King, color.white, 7, 4, Board);
+            CreatePieces(pieceName.Queen, color.white, 7, 3, Board, ISbtn: true);
+            CreatePieces(pieceName.King, color.white, 7, 4, Board, ISbtn: true);
 
             for (int i = 0; i < Board.GetLength(1); i++)
             {
-                Board = CreateButton(pieceName.Pawn, color.black, 1, i, Board);
+                CreatePieces(pieceName.Pawn, color.black, 1, i, Board, ISbtn: true);
 
-                Board = CreateButton(pieceName.Pawn, color.white, 6, i, Board);
+                CreatePieces(pieceName.Pawn, color.white, 6, i, Board, ISbtn: true);
             }
             for (int i = 2; i < Board.GetLength(0) - 2; i++)
             {
                 for (int l = 0; l < Board.GetLength(1); l++)
                 {
-                    Board = CreateButton(pieceName.Empty, color.none, i, l, Board);
+                    CreatePieces(pieceName.Empty, color.none, i, l, Board,ISbtn: true);
                 }
             }
-            for (int i = 0; i < Board.GetLength(0); i++)
-            {
-                for (int l = 0; l < Board.GetLength(1); l++)
-                {
-                    grid.Children.Add(Board[i,l].Button);
-                }
-            }
+            foreach (var btn in btns)
+                grid.Children.Add(btn);
+
         }
 
         private static void Button_Click(object sender, RoutedEventArgs e)
@@ -165,12 +179,9 @@ namespace ChessGameWPF
             int yM = int.Parse(btn.Name.Split('_')[2]);
             if (isSelected)
             {
-                Board[x, y].Button.BorderBrush = Brushes.Transparent;
-                Board[xM, yM].Button.BorderBrush = Brushes.Transparent;
                 Piece[,] boar = (Piece[,])Board.Clone();
                 if (Board[x, y].CanMove(xM, yM, boar))
                 {
-                    Board = null;
                     Board = boar[x, y].Move(xM, yM, boar);
                 }
                 isSelected = false;
@@ -180,9 +191,9 @@ namespace ChessGameWPF
             }
             else if (Board[xM, yM].PieceName != pieceName.Empty)
             {
-                if (now != ChessBoard.Board[xM, yM].Color)
+                if (now != Board[xM, yM].Color)
                     return;
-                if (ChessBoard.Board[xM, yM].Color != color.none)
+                if (Board[xM, yM].Color != color.none)
                     btn.BorderBrush = Brushes.DarkBlue;
                 x = xM;
                 y = yM;
@@ -217,8 +228,8 @@ namespace ChessGameWPF
 
         private static void Clear_Moves()
         {
-            foreach (var item in Board)
-                item.Button.BorderBrush = Brushes.Transparent;
+            foreach (Button item in grid.Children)
+                item.BorderBrush = Brushes.Transparent;
         }
     }
 }

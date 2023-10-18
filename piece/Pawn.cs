@@ -1,9 +1,10 @@
 ﻿using ChessGameWPF.Enum;
 using System;
+using System.Windows.Controls;
 
 namespace ChessGameWPF.piece
 {
-    internal class Pawn : Piece
+    public class Pawn : Piece
     {
         public static pieceName newName = pieceName.Empty;
         public override pieceName PieceName => pieceName.Pawn;
@@ -60,12 +61,10 @@ namespace ChessGameWPF.piece
         public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             if (CanEnPassant && Math.Abs(yM - y) == 1)
-            {  
+            { 
+                Board = ChessBoard.CreatePieces(pieceName.Empty, color.none, x, yM, Board);
                 if (isRealMove)
-                    ChessBoard.grid.Children.Remove(Board[x, yM].Button);
-                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, yM, Board);
-                if (isRealMove)
-                    ChessBoard.grid.Children.Add(Board[x, yM].Button);
+                    ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + yM] as Button, Board[x, yM].PieceName, Board[x, yM].Color);
             }
             base.Move(xM, yM, Board, isRealMove);
             if (isRealMove)
@@ -89,11 +88,12 @@ namespace ChessGameWPF.piece
                 }
                 HasMoved = true;
             }
-            Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
-            Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
+            Board = ChessBoard.CreatePieces(pieceName.Empty, color.none, x, y, Board);
+            Board = ChessBoard.CreatePieces(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved, CanEnPassant);
+
             if (isRealMove)
             {
-                ChessBoard.grid.Children.Add(Board[x, y].Button);
+                ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + y] as Button, Board[x, y].PieceName, Board[x, y].Color);
                 if (xM == 0 || xM == 7)
                 {
                     TransformationWIn win = new TransformationWIn();
@@ -101,12 +101,11 @@ namespace ChessGameWPF.piece
                     TransformationWIn.yM = yM;
                     TransformationWIn.Color = Color;
                     win.ShowDialog();
-                    ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
-                    ChessBoard.CreateButton(newName, Color, xM, yM, Board);
+                    ChessBoard.CreatePieces(newName, Color, xM, yM, Board);
                 }
+                ChessBoard.EditButton(ChessBoard.grid.Children[xM * 8 + yM] as Button, Board[xM, yM].PieceName, Board[xM, yM].Color);
             }
-            if(isRealMove)
-                ChessBoard.grid.Children.Add(Board[xM, yM].Button);
+               
             return Board;
         }
     }

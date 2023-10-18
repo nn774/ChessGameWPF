@@ -1,6 +1,7 @@
 ﻿using ChessGameWPF.boardSctripts;
 using ChessGameWPF.Enum;
 using System;
+using System.Windows.Controls;
 
 namespace ChessGameWPF.piece
 {
@@ -78,37 +79,28 @@ namespace ChessGameWPF.piece
                 {
                     if (yM > y)
                     {
-                        ChessBoard.grid.Children.Remove(Board[x, 7].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 5].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 6].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 4].Button);
 
-                        Board = ChessBoard.CreateButton(Board[x, 7].PieceName, Board[x, 7].Color, x, 5, Board, true);
-                        Board = ChessBoard.CreateButton(PieceName , Color, x, 6, Board, true);
-                        Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, 7, Board );
-                        Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, 4, Board);
+                        ChessBoard.CreatePieces(Board[x, 7].PieceName, Board[x, 7].Color, x, 5, Board, true);
+                        ChessBoard.CreatePieces(PieceName , Color, x, 6, Board, true);
+                        ChessBoard.CreatePieces(pieceName.Empty, color.none, x, 7, Board);
+                        ChessBoard.CreatePieces(pieceName.Empty, color.none, x, 4, Board);
 
-                        ChessBoard.grid.Children.Add(Board[x, 7].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 5].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 6].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 4].Button);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 7] as Button, Board[x, 7].PieceName, Board[x, 7].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 5] as Button, Board[x, 5].PieceName, Board[x, 5].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 6] as Button, Board[x, 6].PieceName, Board[x, 6].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 4] as Button, Board[x, 4].PieceName, Board[x, 4].Color);
                     }
                     else
                     {
-                        ChessBoard.grid.Children.Remove(Board[x, 0].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 2].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 3].Button);
-                        ChessBoard.grid.Children.Remove(Board[x, 4].Button);
+                        ChessBoard.CreatePieces(Board[x, 0].PieceName, Board[x, 0].Color, x, 3, Board);
+                        ChessBoard.CreatePieces(PieceName, Color, x, 2, Board, true);
+                        ChessBoard.CreatePieces(pieceName.Empty, color.none, x, 0, Board);
+                        ChessBoard.CreatePieces(pieceName.Empty, color.none, x, 4, Board);
 
-                        Board = ChessBoard.CreateButton(Board[x, 0].PieceName, Board[x, 0].Color, x, 3, Board);
-                        Board = ChessBoard.CreateButton(PieceName, Color, x, 2, Board, true);
-                        Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, 0, Board);
-                        Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, 4, Board);
-
-                        ChessBoard.grid.Children.Add(Board[x, 3].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 2].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 0].Button);
-                        ChessBoard.grid.Children.Add(Board[x, 4].Button);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 0] as Button, Board[x, 0].PieceName, Board[x, 0].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 2] as Button, Board[x, 2].PieceName, Board[x, 2].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 3] as Button, Board[x, 3].PieceName, Board[x, 3].Color);
+                        ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + 4] as Button, Board[x, 4].PieceName, Board[x, 4].Color);
                     }
                     if (ChessBoard.now == color.white)
                         ChessBoard.now = color.black;

@@ -1,5 +1,6 @@
 ﻿using ChessGameWPF.Enum;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChessGameWPF.piece
 {
@@ -43,6 +44,7 @@ namespace ChessGameWPF.piece
             return false;
         }
 
+        [ExcludeFromCodeCoverage]
         public override Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             if (isRealMove)

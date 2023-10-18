@@ -1,8 +1,10 @@
 ﻿using ChessGameWPF.Enum;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ChessGameWPF.piece
 {
-    internal class Empty : Piece
+    [ExcludeFromCodeCoverage]
+    public class Empty : Piece
     {
         public override pieceName PieceName => pieceName.Empty;
 

@@ -2,23 +2,19 @@
 using ChessGameWPF.Enum;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace ChessGameWPF.piece
 {
-    abstract class Piece : ICloneable
+    public abstract class Piece : ICloneable
     {
         public int x { get; set; }
         public int y { get; set; }
         public color Color { get; set; }
         public virtual pieceName PieceName { get; set; }
-        public Button? Button { get; set; }
         public virtual bool HasMoved { get; set; } = false;
-        ~Piece() 
-        {
-            Button = null;
-        }
 
         public object Clone()
         {
@@ -53,6 +49,7 @@ namespace ChessGameWPF.piece
                 ChessBoard.isHaveEnPassanto = false;
         }
 
+        [ExcludeFromCodeCoverage]
         public virtual Piece[,] Move(int xM, int yM, Piece[,] Board, bool isRealMove = true)
         {
             if (ChessBoard.isHaveEnPassanto && isRealMove)
@@ -64,8 +61,6 @@ namespace ChessGameWPF.piece
                 else
                     ChessBoard.now = color.white;
 
-                ChessBoard.grid.Children.Remove(Board[xM, yM].Button);
-                ChessBoard.grid.Children.Remove(Board[x, y].Button);
             }
 
             Board[xM, yM] = (Piece)this.Clone();
@@ -76,24 +71,25 @@ namespace ChessGameWPF.piece
            
             if (PieceName != pieceName.Pawn)
             {
-                Board = ChessBoard.CreateButton(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved);
-                Board = ChessBoard.CreateButton(pieceName.Empty, color.none, x, y, Board);
+                Board = ChessBoard.CreatePieces(Board[xM, yM].PieceName, Board[xM, yM].Color, xM, yM, Board, HasMoved);
+                Board = ChessBoard.CreatePieces(pieceName.Empty, color.none, x, y, Board);
             }
 
             if (PieceName != pieceName.Pawn && isRealMove)
             {
-                ChessBoard.grid.Children.Add(Board[xM, yM].Button);
-                ChessBoard.grid.Children.Add(Board[x, y].Button);
+                ChessBoard.EditButton(ChessBoard.grid.Children[xM * 8 + yM] as Button, PieceName, Color);
+                ChessBoard.EditButton(ChessBoard.grid.Children[x * 8 + y] as Button, Board[x, y].PieceName, Board[x, y].Color);
             }
             return Board;
         }
 
+        [ExcludeFromCodeCoverage]
         public void showMoves(int x, int y)
         {
             List<Moves> list = Gets.GetMoves(x, y, ChessBoard.Board);
             foreach (var item in list)
             {
-                ChessBoard.Board[item.x, item.y].Button.BorderBrush = Brushes.Red;
+                (ChessBoard.grid.Children[item.x * 8 + item.y] as Button).BorderBrush = Brushes.Red;
             }
         }
 

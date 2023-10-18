@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessGameWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1000" ResizeMode="NoResize">
+        Title="MainWindow" Height="1000" Width="1250" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -106,5 +106,6 @@
             <Label Content="g" HorizontalAlignment="Center" Grid.Column="6" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
             <Label Content="h" HorizontalAlignment="Center" Grid.Column="7" VerticalAlignment="Center" FontSize="22" Foreground="#FFFFEDED"/>
         </Grid>
+        
     </Grid>
 </Window>

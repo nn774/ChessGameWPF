@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace ChessGameWPF
 {
-    /// <summary>
+    /// <summary>W
     /// Interaction logic for MainWindow.xaml
     /// </summary> 
 
